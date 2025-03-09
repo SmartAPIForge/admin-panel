@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:AdminPanel.Converters"
+             x:Class="AdminPanel.Navigation.ServersTab">
+    
+    <ContentPage.Resources>
+        <converters:PortConverter x:Key="PortConverter"/>
+    </ContentPage.Resources>
+
+    <Grid Padding="10" ColumnSpacing="10" RowSpacing="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" /> 
+        </Grid.RowDefinitions>
+        
+        <Button Text="Добавить"
+                Clicked="OnAddServerClicked"
+                BackgroundColor="LimeGreen"
+                Margin="10,0"
+                WidthRequest="150"
+                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                HorizontalOptions="Center" />
+        
+        <ScrollView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+            <ListView x:Name="ServersListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10" ColumnSpacing="15">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="400" />
+                                    <ColumnDefinition Width="120" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text="{Binding Ip}"
+                                       FontSize="16"
+                                       VerticalOptions="Center"
+                                       Grid.Column="0" />
+
+                                <Label Text="{Binding Port, Converter={StaticResource PortConverter}}"
+                                       FontSize="16"
+                                       VerticalOptions="Center"
+                                       Grid.Column="1" />
+                                
+                                <Label Text="{Binding User}"
+                                       TextColor="Gray"
+                                       FontSize="14"
+                                       VerticalOptions="Center"
+                                       Grid.Column="2" />
+
+                                <Button Text="Удалить"
+                                        Clicked="OnDeleteServerClicked"
+                                        CommandParameter="{Binding .}"
+                                        Grid.Column="3" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollView>
+    </Grid>
+    
+</ContentPage>

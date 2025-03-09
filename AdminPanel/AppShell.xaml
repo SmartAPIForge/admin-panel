@@ -4,10 +4,10 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:AdminPanel"
-    xmlns:navigation="clr-namespace:Navigation"
-    Shell.FlyoutBehavior="Disabled"
+    xmlns:navigation="using:AdminPanel.Navigation"
+    FlyoutBehavior="Disabled"
     Title="AdminPanel">
-
+    
     <TabBar>
         <Tab Title="Система">
             <ShellContent ContentTemplate="{DataTemplate navigation:MonitoringTab}" />
@@ -17,6 +17,9 @@
         </Tab>
         <Tab Title="Проекты">
             <ShellContent ContentTemplate="{DataTemplate navigation:ProjectsTab}" />
+        </Tab>
+        <Tab Title="Серверы">
+            <ShellContent ContentTemplate="{DataTemplate navigation:ServersTab}" />
         </Tab>
     </TabBar>
 </Shell>

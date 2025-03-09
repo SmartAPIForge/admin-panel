@@ -1,15 +1,111 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Navigation.ProjectsTab">
-    <VerticalStackLayout>
-        <SearchBar>
-            
-        </SearchBar>
-        <ScrollView>
-            <ListView>
-                
+             xmlns:converters="clr-namespace:AdminPanel.Converters"
+             x:Class="AdminPanel.Navigation.ProjectsTab">
+    
+    <ContentPage.Resources>
+        <converters:ProjectStatusToColorConverter x:Key="StatusToColorConverter" />
+    </ContentPage.Resources>
+
+    <Grid Padding="10" ColumnSpacing="10" RowSpacing="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="190" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <SearchBar x:Name="SearchBar"
+                   TextChanged="OnSearchTextChanged"
+                   Placeholder="Поиск..."
+                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"/>
+        
+        <Label Text="Статус:"
+               VerticalOptions="Center"
+               FontSize="14"
+               Grid.Row="1" Grid.Column="0" />
+        
+        <Picker x:Name="StatusFilterPicker"
+                SelectedIndexChanged="OnStatusFilterChanged"
+                Grid.Row="1" Grid.Column="1">
+            <Picker.Items>
+                <x:String>Все</x:String>
+                <x:String>NEW</x:String>
+                <x:String>GENERATE_PENDING</x:String>
+                <x:String>GENERATE_SUCCESS</x:String>
+                <x:String>GENERATE_FAIL</x:String>
+                <x:String>DEPLOY_PENDING</x:String>
+                <x:String>DEPLOY_SUCCESS</x:String>
+                <x:String>DEPLOY_FAIL</x:String>
+                <x:String>RUNNING</x:String>
+                <x:String>STOPPED</x:String>
+                <x:String>FAILED</x:String>
+            </Picker.Items>
+        </Picker>
+        
+        <Label Text="Владелец:"
+               VerticalOptions="Center"
+               FontSize="14"
+               Grid.Row="1" Grid.Column="2" />
+
+        <Entry x:Name="OwnerFilterEntry"
+               TextChanged="OnOwnerFilterChanged"
+               Grid.Row="1" Grid.Column="3" />
+        
+        <ScrollView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">
+            <ListView x:Name="ProjectsListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10" ColumnSpacing="15">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="700" />
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label Text="{Binding Name}"
+                                       FontSize="16"
+                                       VerticalOptions="Center"
+                                       Grid.Column="0" />
+                                
+                                <Label Text="{Binding Owner}"
+                                       FontSize="14"
+                                       TextColor="Gray"
+                                       VerticalOptions="Center"
+                                       Grid.Column="1" />
+                                
+                                <BoxView WidthRequest="20"
+                                         HeightRequest="20"
+                                         CornerRadius="10"
+                                         VerticalOptions="Center"
+                                         Color="{Binding Status, Converter={StaticResource StatusToColorConverter}}"
+                                         Grid.Column="2" />
+                                
+                                <Button Text="Удалить"
+                                        Clicked="OnDeleteClicked"
+                                        CommandParameter="{Binding .}"
+                                        Grid.Column="3" />
+                                
+                                <Button Text="Остановить"
+                                        Clicked="OnStopClicked"
+                                        CommandParameter="{Binding .}"
+                                        Grid.Column="4" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </ScrollView>
-    </VerticalStackLayout>
-</ContentPage>
+    </Grid>
+</ContentPage> 

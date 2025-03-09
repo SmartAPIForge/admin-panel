@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AdminPanel.LoginPage">
+    
+    <VerticalStackLayout WidthRequest="300"
+                         Padding="10">
+        <Label Text="Почта" />
+        <Entry />
+        
+        <Label Text="Пароль"
+               Margin="0, 20, 0, 0"/>
+        <Entry IsPassword="True" />
+        
+        <HorizontalStackLayout Margin="0, 5, 0, 0">
+            <CheckBox Scale="0.7" />
+            <Label Text="Запомнить меня"
+                   Margin="5, 0, 0, 0"
+                   VerticalOptions="Center"/>
+        </HorizontalStackLayout>
+        
+        <Button Text="Вход"
+                Margin="0, 15, 0, 0"
+                WidthRequest="200"
+                Clicked="OnLoginButtonClicked"/>
+    </VerticalStackLayout>
+
+</ContentPage>

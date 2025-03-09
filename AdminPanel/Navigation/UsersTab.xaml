@@ -1,15 +1,100 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Navigation.UsersTab">
-    <VerticalStackLayout>
-        <SearchBar>
-            
-        </SearchBar>
-        <ScrollView>
-            <ListView>
-                
+             xmlns:converters="clr-namespace:AdminPanel.Converters"
+             x:Class="AdminPanel.Navigation.UsersTab">
+
+    <ContentPage.Resources>
+        <converters:RoleToTextConverter x:Key="RoleConverter" />
+    </ContentPage.Resources>
+
+    <Grid Padding="10" ColumnSpacing="10" RowSpacing="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" /> 
+        </Grid.RowDefinitions>
+        
+        <Label Text="Роль:"
+               VerticalOptions="Center"
+               FontSize="14"
+               Grid.Row="0" Grid.Column="0" />
+
+        <Picker x:Name="RoleFilterPicker"
+                SelectedIndexChanged="OnRoleFilterChanged"
+                Grid.Row="0" Grid.Column="1">
+            <Picker.Items>
+                <x:String>Все</x:String>
+                <x:String>Админ</x:String>
+                <x:String>Пользователь</x:String>
+            </Picker.Items>
+        </Picker>
+
+        <SearchBar x:Name="SearchBar"
+                   TextChanged="OnSearchTextChanged"
+                   Placeholder="Поиск..."
+                   HorizontalOptions="Fill"
+                   Grid.Row="0" Grid.Column="2" />
+        
+        <Button Text="Добавить"
+                Clicked="OnAddUserClicked"
+                BackgroundColor="LimeGreen"
+                Margin="10,0"
+                WidthRequest="150"
+                Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                HorizontalOptions="Center" />
+        
+        <ScrollView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+            <ListView x:Name="UsersListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10" ColumnSpacing="15">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="400" />
+                                    <ColumnDefinition Width="500"/>
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="120" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text="{Binding Username}"
+                                       FontSize="16"
+                                       VerticalOptions="Center"
+                                       Grid.Column="0" />
+                                
+                                <Label Text="{Binding Email}"
+                                       FontSize="16"
+                                       VerticalOptions="Center"
+                                       Grid.Column="1"/>
+
+                                <Label Text="{Binding Role, Converter={StaticResource RoleConverter}}"
+                                       FontSize="14"
+                                       TextColor="Gray"
+                                       VerticalOptions="Center"
+                                       Grid.Column="2" />
+
+                                <Button Text="Удалить"
+                                        Clicked="OnDeleteUserClicked"
+                                        CommandParameter="{Binding Username}"
+                                        Grid.Column="3" />
+
+                                <Button Text="Проекты"
+                                        Clicked="OnViewProjectsClicked"
+                                        CommandParameter="{Binding Username}"
+                                        Grid.Column="4" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </ScrollView>
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>
